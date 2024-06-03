@@ -43,16 +43,6 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", isGrounded);
     }
 
-    private void Die()
-    {
-        animator.SetTrigger("Die");
-        playerAudio.clip = deathClip;
-        playerAudio.Play();
-
-        playerRigidbody.velocity = Vector2.zero;
-        isDead = true;
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Dead" && !isDead)
@@ -73,5 +63,17 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         isGrounded = false;
+    }
+
+    private void Die()
+    {
+        animator.SetTrigger("Die");
+        playerAudio.clip = deathClip;
+        playerAudio.Play();
+
+        playerRigidbody.velocity = Vector2.zero;
+        isDead = true;
+
+        GameManager.instance.OnPlayerDead();
     }
 }
